@@ -59,11 +59,11 @@ interface CoinObject {
 interface ICoinHistory {
   time_open: string;
   time_close: string;
-  open: number;
-  high: number;
-  low: number;
-  close: number;
-  volume: number;
+  open: string;
+  high: string;
+  low: string;
+  close: string;
+  volume: string;
   market_cap: number;
 }
 
