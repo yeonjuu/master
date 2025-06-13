@@ -6,7 +6,8 @@ import { styled } from "styled-components";
 import { InfoData, PriceData } from "../types/CoinDataType";
 import { useQuery } from "react-query";
 import { fetchCoinInfo, fetchCoinTicker } from "../api";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
+import { BackIcon } from "../components/icons";
 
 interface RouteState {
   name: string;
@@ -19,7 +20,9 @@ interface RouteParams extends Params {
 const Overview = styled.div`
   display: flex;
   justify-content: space-between;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: ${(props) => props.theme.backgroundOverlay};
+  color: ${(props) => props.theme.textOnOverlay};
+  color: #fff;
   padding: 10px 20px;
   border-radius: 10px;
 `;
@@ -46,7 +49,7 @@ const Tabs = styled.div`
   gap: 10px;
 `;
 
-const Tab = styled.span<{ isActive: boolean }>`
+const Tab = styled.span<{ $isActive: boolean }>`
   text-align: center;
   text-transform: uppercase;
   font-size: 12px;
@@ -54,12 +57,19 @@ const Tab = styled.span<{ isActive: boolean }>`
   background-color: rgba(0, 0, 0, 0.5);
   padding: 7px 0px;
   border-radius: 10px;
-  color: ${(props) => (props.isActive ? props.theme.accentColor : props.theme.textColor)};
+  color: ${(props) => (props.$isActive ? props.theme.textOnAccent : "#fff")};
   a {
     display: block;
   }
 `;
 
+const BackButton = styled.button`
+  color: ${(props) => props.theme.iconColor}; // ← currentColor에 영향을 줌
+  background: none;
+  border: none;
+  display: flex;
+  align-items: center;
+`;
 function Coin() {
   const { coinId } = useParams<RouteParams>();
   const location = useLocation();
@@ -81,7 +91,17 @@ function Coin() {
         <title>{state?.name ? state.name : loading ? "Loading" : infoData?.name}</title>
       </Helmet>
       <Header>
+        <Link to="/">
+          <BackButton>
+            <BackIcon />
+          </BackButton>
+        </Link>
         <Title>{state?.name ? state.name : loading ? "Loading" : infoData?.name}</Title>
+        <span style={{ visibility: "hidden" }}>
+          <BackButton>
+            <BackIcon />
+          </BackButton>
+        </span>
       </Header>
       {loading ? (
         <Loader>Loading...</Loader>
@@ -113,12 +133,12 @@ function Coin() {
             </OverviewItem>
           </Overview>
           <Tabs>
-            <Tab isActive={chartMatch !== null}>
+            <Tab $isActive={chartMatch !== null}>
               <Link to={`/${coinId}/chart`} state={{ name: infoData?.name }}>
                 Chart
               </Link>
             </Tab>
-            <Tab isActive={piceMatch !== null}>
+            <Tab $isActive={piceMatch !== null}>
               <Link to={`/${coinId}/price`} state={{ name: infoData?.name }}>
                 Price
               </Link>

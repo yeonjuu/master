@@ -1,7 +1,7 @@
 import { createGlobalStyle } from "styled-components";
 
+// Globalstyle에서 import를 제대로 반영하지 못하는 경우가 있으니, font는 head에
 export const GlobalStyle = createGlobalStyle`
-@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400&display=swap');
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -54,13 +54,17 @@ table {
 }
 body {
   font-family: 'Source Sans Pro', sans-serif;
-  background-color:${(props) => props.theme.bgColor};
-  color: ${(props) => props.theme.textColor};
+  background-color:${(props) => props.theme.backgroundPrimary};
+  color: ${(props) => props.theme.textOnPrimary};
   line-height: 1.2;
   font-weight: 300;
 }
 a {
   text-decoration:none;
-  color : inherit;
+   color: inherit;
+}
+svg {
+display: inline-block;
+  vertical-align: middle;
 }
 `;
