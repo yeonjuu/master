@@ -1,7 +1,5 @@
-import { Link, Params, Route, Routes, useLocation, useMatch, useParams } from "react-router-dom";
+import { Link, Outlet, Params, useLocation, useMatch, useParams } from "react-router-dom";
 import { Container, Header, Loader, Title } from "../components";
-import Chart from "./Chart";
-import Price from "./Price";
 import { styled } from "styled-components";
 import { InfoData, PriceData } from "../types/CoinDataType";
 import { useQuery } from "react-query";
@@ -144,10 +142,7 @@ function Coin() {
               </Link>
             </Tab>
           </Tabs>
-          <Routes>
-            <Route path={`/chart`} element={<Chart coinId={coinId!} />} />
-            <Route path={`/price`} element={<Price coinId={coinId!} />} />
-          </Routes>
+          <Outlet context={{ coinId }} />
         </>
       )}
     </Container>
